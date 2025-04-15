@@ -95,7 +95,7 @@ Here's an example running log on a single node (8 x H100 GPUs).
 [04-03 09:12:54|INFO|cosmos_predict1/diffusion/training/callbacks/iter_speed.py:80:every_n_impl] 60 : iter_speed 7.90 seconds per iteration | Loss: -0.4023
 [04-03 09:14:14|INFO|cosmos_predict1/diffusion/training/callbacks/iter_speed.py:80:every_n_impl] 70 : iter_speed 7.91 seconds per iteration | Loss: -0.4414
 [04-03 09:15:35|INFO|cosmos_predict1/diffusion/training/callbacks/iter_speed.py:80:every_n_impl] 80 : iter_speed 8.15 seconds per iteration | Loss: -1.1172
-[04-03 09:16:52|INFO|cosmos_predict1/diffusion/training/callbacks/iter_speed.py:80:every_n_impl] 90 : iter_speed 7.72 seconds per iteration | Loss: 0.1377 
+[04-03 09:16:52|INFO|cosmos_predict1/diffusion/training/callbacks/iter_speed.py:80:every_n_impl] 90 : iter_speed 7.72 seconds per iteration | Loss: 0.1377
 Training:   5%|████▉                                                                                                   | 94/2000 [12:44<4:10:00,  7.87s/it]
 ```
 
@@ -182,7 +182,7 @@ checkpoints/posttraining/diffusion_text2world/text2world_7b_example_cosmos_nemo_
 ├── iter_{NUMBER}_ema_model.pt
 ```
 
-* (Optional) Low-resolution training 
+* (Optional) Low-resolution training
 
 To run with 4 GPUs with H100/A100 80GB, run experiment `text2world_7b_example_cosmos_nemo_assets_4gpu_80gb`.
 It trains with `cosmos_nemo_assets` data at 384x384 resolution, video length of 121 frames.

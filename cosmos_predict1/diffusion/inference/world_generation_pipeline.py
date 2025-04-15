@@ -634,7 +634,6 @@ class DiffusionVideo2WorldGenerationPipeline(DiffusionText2WorldGenerationPipeli
         else:
             log.info("Not running guardrail")
 
-
         log.info("Run text embedding on prompt")
         if negative_prompt:
             prompts = [prompt, negative_prompt]
