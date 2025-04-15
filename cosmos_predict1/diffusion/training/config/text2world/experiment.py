@@ -62,6 +62,7 @@ dataloader_train_hdvila = L(DataLoader)(
     drop_last=True,
     num_workers=8,
     pin_memory=True,
+    pin_memory=True,
 )
 dataloader_val_hdvila = L(DataLoader)(
     dataset=example_video_dataset_hdvila,
@@ -69,6 +70,7 @@ dataloader_val_hdvila = L(DataLoader)(
     batch_size=1,
     drop_last=True,
     num_workers=8,
+    pin_memory=True,
     pin_memory=True,
 )
 
@@ -95,6 +97,7 @@ dataloader_train_cosmos_nemo_assets = L(DataLoader)(
     batch_size=1,
     drop_last=True,
     num_workers=8,
+    pin_memory=True,
     pin_memory=True,
 )
 dataloader_val_cosmos_nemo_assets = L(DataLoader)(
@@ -140,6 +143,7 @@ dataloader_train_cosmos_nemo_assets_4gpu_40gb = L(DataLoader)(
     drop_last=True,
     num_workers=8,
     pin_memory=True,
+    pin_memory=True,
 )
 dataloader_val_cosmos_nemo_assets_4gpu_40gb = L(DataLoader)(
     dataset=example_video_dataset_cosmos_nemo_assets_4gpu_40gb,
@@ -147,6 +151,7 @@ dataloader_val_cosmos_nemo_assets_4gpu_40gb = L(DataLoader)(
     batch_size=1,
     drop_last=True,
     num_workers=8,
+    pin_memory=True,
     pin_memory=True,
 )
 
@@ -167,6 +172,7 @@ dataloader_train_cosmos_nemo_assets_8gpu_40gb = L(DataLoader)(
     drop_last=True,
     num_workers=8,
     pin_memory=True,
+    pin_memory=True,
 )
 dataloader_val_cosmos_nemo_assets_8gpu_40gb = L(DataLoader)(
     dataset=example_video_dataset_cosmos_nemo_assets_8gpu_40gb,
@@ -174,6 +180,7 @@ dataloader_val_cosmos_nemo_assets_8gpu_40gb = L(DataLoader)(
     batch_size=1,
     drop_last=True,
     num_workers=8,
+    pin_memory=True,
     pin_memory=True,
 )
 
@@ -195,6 +202,7 @@ dataloader_train_cosmos_nemo_assets_4gpu_80gb = L(DataLoader)(
     drop_last=True,
     num_workers=8,
     pin_memory=True,
+    pin_memory=True,
 )
 dataloader_val_cosmos_nemo_assets_4gpu_80gb = L(DataLoader)(
     dataset=example_video_dataset_cosmos_nemo_assets_4gpu_80gb,
@@ -202,6 +210,7 @@ dataloader_val_cosmos_nemo_assets_4gpu_80gb = L(DataLoader)(
     batch_size=1,
     drop_last=True,
     num_workers=8,
+    pin_memory=True,
     pin_memory=True,
 )
 
@@ -488,6 +497,7 @@ text2world_7b_example_cosmos_nemo_assets = LazyDict(
                 rope_h_extrapolation_ratio=1,
                 rope_w_extrapolation_ratio=1,
                 rope_t_extrapolation_ratio=2,
+                use_checkpoint=True,
                 use_checkpoint=True,
             ),
             vae=dict(pixel_chunk_duration=num_frames),
