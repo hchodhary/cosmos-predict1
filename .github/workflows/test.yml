@@ -20,8 +20,6 @@ on:
     workflows: ["Lint"]
     types:
       - completed
-    branches:
-      - '*'  # This ensures it triggers from any branch
 
 jobs:
   check-video-links:
