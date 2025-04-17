@@ -13,23 +13,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# lint.yml : A workflow to trigger lint tests on GitHub
-name: 'Lint'
+name: Test
+
 on:
-  pull_request:
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["Lint"]
+    types:
+      - completed
+    branches:
+      - '*'  # This ensures it triggers from any branch
+
 jobs:
-  lint:
-    name: 'Linting'
+  check-video-links:
     runs-on: ubuntu-latest
+
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v4
+
       - name: 'Setup Python'
         uses: actions/setup-python@v5
         with:
           python-version: 'pypy3.10'
-      - name: 'Lint'
-        run: |
-          sudo apt-get update
-          bash ./scripts/format.sh
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run Video Link Checker
+        run: python scripts/check_video_links.py
