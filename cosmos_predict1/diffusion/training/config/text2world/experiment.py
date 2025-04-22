@@ -22,13 +22,14 @@ from cosmos_predict1.diffusion.training.callbacks.low_precision import LowPrecis
 from cosmos_predict1.diffusion.training.datasets.dataset_video import Dataset
 from cosmos_predict1.diffusion.training.models.model import FSDPDiffusionModel
 from cosmos_predict1.diffusion.training.models.model_peft import PEFTVideoDiffusionModel
+from cosmos_predict1.diffusion.training.utils.peft.lora_config import get_fa_ca_qv_lora_config
 from cosmos_predict1.utils import log
 from cosmos_predict1.utils.callback import ProgressBarCallback
 from cosmos_predict1.utils.callbacks.grad_clip import GradClip
 from cosmos_predict1.utils.lazy_config import PLACEHOLDER
 from cosmos_predict1.utils.lazy_config import LazyCall as L
 from cosmos_predict1.utils.lazy_config import LazyDict
-from cosmos_predict1.diffusion.training.utils.peft.lora_config import get_fa_ca_qv_lora_config
+
 
 def get_sampler(dataset):
     return DistributedSampler(
@@ -111,7 +112,7 @@ dataloader_train_cosmos_nemo_assets_480_848 = L(DataLoader)(
     batch_size=1,
     drop_last=True,
     num_workers=8,
-    pin_memory=True
+    pin_memory=True,
 )
 dataloader_val_cosmos_nemo_assets_480_848 = L(DataLoader)(
     dataset=example_video_dataset_cosmos_nemo_assets_480_848,
@@ -130,7 +131,7 @@ example_video_dataset_cosmos_nemo_assets_4gpu_40gb = L(Dataset)(
     num_frames=num_frames_4gpu_40gb,
     video_size=(384, 384),  # a low-res example for lower VRAM utilization without considering aspect ratio.
     start_frame_interval=1,
-)   
+)
 
 dataloader_train_cosmos_nemo_assets_4gpu_40gb = L(DataLoader)(
     dataset=example_video_dataset_cosmos_nemo_assets_4gpu_40gb,
@@ -1015,6 +1016,7 @@ text2world_7b_lora_example_cosmos_nemo_assets = LazyDict(
         dataloader_val=dataloader_val_cosmos_nemo_assets_480_848,
     )
 )
+
 
 def register_experiments(cs: ConfigStore) -> None:
     # Register the experiments

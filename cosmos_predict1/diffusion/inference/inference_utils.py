@@ -329,7 +329,7 @@ def load_network_model(model: DiffusionT2WModel, ckpt_path: str):
             net_state_dict = model_state_dict
         else:
             net_state_dict = model_state_dict
-    
+
     log.debug(non_strict_load_model(model.model, net_state_dict))
     model.cuda()
 

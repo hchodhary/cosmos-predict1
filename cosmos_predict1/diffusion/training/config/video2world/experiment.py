@@ -21,15 +21,16 @@ from cosmos_predict1.diffusion.training.callbacks.iter_speed import IterSpeed
 from cosmos_predict1.diffusion.training.callbacks.low_precision import LowPrecisionCallback
 from cosmos_predict1.diffusion.training.datasets.dataset_video import Dataset
 from cosmos_predict1.diffusion.training.models.extend_model import FSDPExtendDiffusionModel
+from cosmos_predict1.diffusion.training.models.model_peft import PEFTExtendDiffusionModel
 from cosmos_predict1.diffusion.training.networks.general_dit_lvg import VideoExtendGeneralDIT
+from cosmos_predict1.diffusion.training.utils.peft.lora_config import get_fa_ca_qv_lora_config
 from cosmos_predict1.utils import log
 from cosmos_predict1.utils.callback import ProgressBarCallback
 from cosmos_predict1.utils.callbacks.grad_clip import GradClip
 from cosmos_predict1.utils.lazy_config import PLACEHOLDER
 from cosmos_predict1.utils.lazy_config import LazyCall as L
 from cosmos_predict1.utils.lazy_config import LazyDict
-from cosmos_predict1.diffusion.training.models.model_peft import PEFTExtendDiffusionModel
-from cosmos_predict1.diffusion.training.utils.peft.lora_config import get_fa_ca_qv_lora_config
+
 
 def get_sampler(dataset):
     return DistributedSampler(
@@ -83,7 +84,7 @@ dataloader_train_cosmos_nemo_assets = L(DataLoader)(
     batch_size=1,
     drop_last=True,
     pin_memory=True,
-    num_workers=8
+    num_workers=8,
 )
 
 dataloader_val_cosmos_nemo_assets = L(DataLoader)(
@@ -92,7 +93,7 @@ dataloader_val_cosmos_nemo_assets = L(DataLoader)(
     batch_size=1,
     drop_last=True,
     pin_memory=True,
-    num_workers=8
+    num_workers=8,
 )
 
 
