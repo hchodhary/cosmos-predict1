@@ -100,12 +100,20 @@ def traverse_directory(path: str, results: dict[str, int], fix: bool = False, su
 def _check_header(content: list[str], header: list[str]) -> bool:
     if content[: len(header)] != header:
         return False
-    if len(content) > len(header):
-        if len(content) == len(header) + 1:
-            return False
-        if not (content[len(header)] == "" and content[len(header) + 1] != ""):
-            return False
-    return True
+
+    i = len(header)
+    blank_line_count = 0
+
+    while i < len(content) and content[i].strip() == "":
+        blank_line_count += 1
+        i += 1
+
+    # Allow at most two blank lines
+    if blank_line_count > 2:
+        return False
+
+    # Must have at least one non-empty line after the blank lines
+    return i < len(content)
 
 
 def colorize(x: str, color: str, bold: bool = False) -> str:
