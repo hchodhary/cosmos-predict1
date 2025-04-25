@@ -20,6 +20,8 @@ on:
     workflows: ["Lint"]
     types:
       - completed
+    branches:
+      - '*'  # Run on all branches, not just default
 
 jobs:
   check-video-links:
