@@ -31,8 +31,12 @@ RUN echo "Installing dependencies. This will take a while..." && \
     bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3 && \
     rm ~/miniconda3/miniconda.sh && \
     source ~/miniconda3/bin/activate && \
-    conda env create --file /cosmos-predict1.yaml && \
-    conda activate cosmos-predict1 && \
+    # 🧩 Accept Anaconda Terms of Service to prevent error
+    ~/miniconda3/bin/conda config --set channel_alias https://repo.anaconda.com && \
+    ~/miniconda3/bin/conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
+    ~/miniconda3/bin/conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r && \
+    ~/miniconda3/bin/conda env create --file /cosmos-predict1.yaml && \
+    source ~/miniconda3/bin/activate cosmos-predict1 && \
     pip install --no-cache-dir -r /requirements.txt && \
     ln -sf $CONDA_PREFIX/lib/python3.10/site-packages/nvidia/*/include/* $CONDA_PREFIX/include/ && \
     ln -sf $CONDA_PREFIX/lib/python3.10/site-packages/nvidia/*/include/* $CONDA_PREFIX/include/python3.10 && \
@@ -42,6 +46,6 @@ RUN echo "Installing dependencies. This will take a while..." && \
     CUDA_HOME=$CONDA_PREFIX pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" . && \
     echo "Environment setup complete"
 
-
 # Default command
 CMD ["/bin/bash"]
+
