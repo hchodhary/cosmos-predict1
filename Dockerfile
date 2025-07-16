@@ -20,34 +20,35 @@ FROM nvcr.io/nvidia/pytorch:24.10-py3
 RUN apt-get update && apt-get install -y git tree ffmpeg wget
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh && ln -s /lib64/libcuda.so.1 /lib64/libcuda.so
 
-# Copy environment and requirement files
+# Copy the cosmos-predict1.yaml and requirements.txt files to the container
 COPY ./cosmos-predict1.yaml /cosmos-predict1.yaml
 COPY ./requirements.txt /requirements.txt
 
-# Install Miniconda and setup environment
+# Install cosmos-predict1 dependencies. This will take a while.
 RUN echo "Installing dependencies. This will take a while..." && \
     mkdir -p ~/miniconda3 && \
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh && \
     bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3 && \
     rm ~/miniconda3/miniconda.sh && \
-    ~/miniconda3/bin/conda config --add channels defaults && \
-    ~/miniconda3/bin/conda config --add channels conda-forge && \
-    ~/miniconda3/bin/conda tos accept --channel https://repo.anaconda.com/pkgs/main && \
-    ~/miniconda3/bin/conda tos accept --channel https://repo.anaconda.com/pkgs/r && \
+    source ~/miniconda3/bin/activate && \
+    # 🧩 Accept Anaconda Terms of Service to prevent error
+    ~/miniconda3/bin/conda config --set channel_alias https://repo.anaconda.com && \
+    ~/miniconda3/bin/conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
+    ~/miniconda3/bin/conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r && \
     ~/miniconda3/bin/conda env create --file /cosmos-predict1.yaml && \
-    /bin/bash -c "source ~/miniconda3/bin/activate cosmos-predict1 && \
+    source ~/miniconda3/bin/activate cosmos-predict1 && \
     pip install --no-cache-dir -r /requirements.txt && \
-    ln -sf \$CONDA_PREFIX/lib/python3.10/site-packages/nvidia/*/include/* \$CONDA_PREFIX/include/ && \
-    ln -sf \$CONDA_PREFIX/lib/python3.10/site-packages/nvidia/*/include/* \$CONDA_PREFIX/include/python3.10 && \
-    ln -sf \$CONDA_PREFIX/lib/python3.10/site-packages/triton/backends/nvidia/include/* \$CONDA_PREFIX/include/ && \
+    ln -sf $CONDA_PREFIX/lib/python3.10/site-packages/nvidia/*/include/* $CONDA_PREFIX/include/ && \
+    ln -sf $CONDA_PREFIX/lib/python3.10/site-packages/nvidia/*/include/* $CONDA_PREFIX/include/python3.10 && \
+    ln -sf $CONDA_PREFIX/lib/python3.10/site-packages/triton/backends/nvidia/include/* $CONDA_PREFIX/include/ && \
     pip install transformer-engine[pytorch]==1.12.0 && \
     git clone https://github.com/NVIDIA/apex && cd apex && \
-    CUDA_HOME=\$CONDA_PREFIX pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation \
-      --config-settings '--build-option=--cpp_ext' --config-settings '--build-option=--cuda_ext' . && \
-    echo 'Environment setup complete'"
-    
+    CUDA_HOME=$CONDA_PREFIX pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" . && \
+    echo "Environment setup complete"
+
 # Default command
 CMD ["/bin/bash"]
+
 
 
 
