@@ -24,7 +24,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh && ln -s /lib64/libcuda.so.1 /lib64/li
 COPY ./cosmos-predict1.yaml /cosmos-predict1.yaml
 COPY ./requirements.txt /requirements.txt
 
-# Install Miniconda and set up the environment
+# Install Miniconda and setup environment
 RUN echo "Installing dependencies. This will take a while..." && \
     mkdir -p ~/miniconda3 && \
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh && \
@@ -44,9 +44,10 @@ RUN echo "Installing dependencies. This will take a while..." && \
     git clone https://github.com/NVIDIA/apex && cd apex && \
     CUDA_HOME=\$CONDA_PREFIX pip install -v --disable-pip-version-check --no-cache-dir --no-build-isolation \
       --config-settings '--build-option=--cpp_ext' --config-settings '--build-option=--cuda_ext' . && \
-    echo 'Environment setup complete')"
-
+    echo 'Environment setup complete'"
+    
 # Default command
 CMD ["/bin/bash"]
+
 
 
